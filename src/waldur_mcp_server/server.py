@@ -54,8 +54,8 @@ class WaldurClient:
 
 
 # Get credentials from environment variables
-api_url = os.getenv("WALDUR_API_URL", "https://rest-test.nodeconductor.com/api")
-token = os.getenv("WALDUR_TOKEN", "38139c7bafb66f9f9469f694c57e8d64d16c5bbe")
+api_url = os.getenv("WALDUR_API_URL")
+token = os.getenv("WALDUR_TOKEN")
 
 if not api_url or not token:
     raise ValueError(
