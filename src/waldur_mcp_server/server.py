@@ -1,43 +1,28 @@
 import os
 import json
-from typing import Any, Sequence, Dict, Optional, List
+from typing import Any, Sequence, Dict, List
 import httpx
 
 import mcp.types as types
 from mcp.server import Server
 from pydantic import AnyUrl
 
-
-async def make_waldur_request(
-    api_url: str,
-    token: str,
-    method: str,
-    endpoint: str,
-    params: Optional[Dict] = None,
-    json_data: Optional[Dict] = None,
-) -> Any:
-    """Make a request to Waldur API."""
+async def execute_waldur_query(api_url: str, token: str, query: str) -> Dict:
+    """Execute SQL query against Waldur API"""
     headers = {
         "Authorization": f"Token {token}",
         "Content-Type": "application/json",
     }
     
-    url = f"{api_url.rstrip('/')}/{endpoint.lstrip('/')}"
+    url = f"{api_url.rstrip('/')}/query/"
     async with httpx.AsyncClient(headers=headers, timeout=30.0) as client:
-        response = await client.request(method, url, params=params, json=json_data)
+        response = await client.request(
+            "POST", 
+            url,
+            json={"query": query}
+        )
         response.raise_for_status()
         return response.json()
-
-
-async def execute_waldur_query(api_url: str, token: str, query: str) -> Dict:
-    """Execute SQL query against Waldur API."""
-    return await make_waldur_request(
-        api_url=api_url,
-        token=token,
-        method="POST",
-        endpoint="/query/",
-        json_data={"query": query}
-    )
 
 
 # Get credentials from environment variables
