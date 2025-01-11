@@ -90,7 +90,7 @@ async def list_resources() -> List[types.Resource]:
             uri=f"waldur://{row[0]}",
             name=f"{row[0]} database schema",
             description=f"{row[0]} database schema",
-            mimeType="text/plain",
+            mimeType="application/json",
         )
         for row in result
     ]
