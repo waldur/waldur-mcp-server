@@ -87,12 +87,14 @@ async def list_resources() -> List[types.Resource]:
     )
     return [
         types.Resource(
-            uri=f"waldur://{row['table_name']}/schema",
-            name=f"{row['table_name']} database schema",
-            mimeType="application/json",
+            uri=f"waldur://{row[0]}",
+            name=f"{row[0]} database schema",
+            description=f"{row[0]} database schema",
+            mimeType="text/plain",
         )
         for row in result
     ]
+
 
 
 @server.read_resource()
@@ -107,7 +109,7 @@ async def read_resource(uri: AnyUrl) -> str:
     result = await execute_waldur_query(
         api_url,
         token,
-        f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = {path}"
+        f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = \'{path}\'"
     )
     return json.dumps(result, indent=2)
 
