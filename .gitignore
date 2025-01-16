@@ -44,4 +44,4 @@ htmlcov/
 # Environment variables file that might contain sensitive data
 .env
 .env.prod
-.env.staging 
+.env.staging

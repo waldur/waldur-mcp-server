@@ -7,20 +7,17 @@ import mcp.types as types
 from mcp.server import Server
 from pydantic import AnyUrl
 
+
 async def execute_waldur_query(api_url: str, token: str, query: str) -> Dict:
     """Execute SQL query against Waldur API"""
     headers = {
         "Authorization": f"Token {token}",
         "Content-Type": "application/json",
     }
-    
+
     url = f"{api_url.rstrip('/')}/query/"
     async with httpx.AsyncClient(headers=headers, timeout=30.0) as client:
-        response = await client.request(
-            "POST", 
-            url,
-            json={"query": query}
-        )
+        response = await client.request("POST", url, json={"query": query})
         response.raise_for_status()
         return response.json()
 
@@ -35,6 +32,7 @@ if not api_url or not token:
     )
 
 server = Server("waldur_mcp_server")
+
 
 @server.list_tools()
 async def list_tools() -> list[types.Tool]:
@@ -54,27 +52,55 @@ async def list_tools() -> list[types.Tool]:
                 "required": ["sql"],
             },
         ),
+        types.Tool(
+            name="project-list",
+            description="List all Waldur projects",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="customer-list",
+            description="List all Waldur customers",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="resource-list",
+            description="List resources such as instances, volumes, and networks",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
     ]
 
 
 @server.call_tool()
 async def call_tool(name: str, arguments: Any) -> Sequence[types.TextContent]:
     """Handle tool calls for Waldur operations."""
-    if name == "query":
-        if "sql" not in arguments:
-            raise ValueError("SQL query is required")
-            
-        # Execute the query and get results
-        result = await execute_waldur_query(api_url, token, arguments["sql"])
-        
-        return [
-            types.TextContent(
-                type="text", text=json.dumps(result, indent=2)
-            )
-        ]
+    queries = {
+        "query": lambda args: args["sql"] if "sql" in args else None,
+        "project-list": lambda _: "SELECT uuid, name, description FROM structure_project",
+        "customer-list": lambda _: "SELECT uuid, name, abbreviation FROM structure_customer",
+        "resource-list": lambda _: "SELECT uuid, name FROM marketplace_resource",
+    }
 
-    else:
+    if name not in queries:
         raise ValueError(f"Unknown tool: {name}")
+
+    query = queries[name](arguments)
+    if query is None:
+        raise ValueError("SQL query is required")
+
+    result = await execute_waldur_query(api_url, token, query)
+    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
 
 @server.list_resources()
@@ -83,7 +109,7 @@ async def list_resources() -> List[types.Resource]:
     result = await execute_waldur_query(
         api_url,
         token,
-        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'",
     )
     return [
         types.Resource(
@@ -94,7 +120,6 @@ async def list_resources() -> List[types.Resource]:
         )
         for row in result
     ]
-
 
 
 @server.read_resource()
@@ -109,7 +134,7 @@ async def read_resource(uri: AnyUrl) -> str:
     result = await execute_waldur_query(
         api_url,
         token,
-        f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = \'{path}\'"
+        f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '{path}'",
     )
     return json.dumps(result, indent=2)
 
