@@ -1,25 +1,78 @@
 import os
-import json
-from typing import Any, Sequence, Dict, List
+from typing import Literal
+
+from mcp.server.fastmcp import FastMCP
 import httpx
 
-import mcp.types as types
-from mcp.server import Server
-from pydantic import AnyUrl
 
+class WaldurClient:
+    def __init__(self, api_url: str, token: str):
+        self.api_url = api_url
+        self.token = token
 
-async def execute_waldur_query(api_url: str, token: str, query: str) -> Dict:
-    """Execute SQL query against Waldur API"""
-    headers = {
-        "Authorization": f"Token {token}",
-        "Content-Type": "application/json",
-    }
+    async def _request(
+        self, path: str, method: str = "GET", data: dict = None, params: dict = None
+    ) -> dict:
+        """Make HTTP request to Waldur API"""
+        headers = {
+            "Authorization": f"Token {self.token}",
+            "Content-Type": "application/json",
+        }
 
-    url = f"{api_url.rstrip('/')}/query/"
-    async with httpx.AsyncClient(headers=headers, timeout=30.0) as client:
-        response = await client.request("POST", url, json={"query": query})
-        response.raise_for_status()
-        return response.json()
+        async with httpx.AsyncClient(headers=headers, timeout=30.0) as client:
+            url = f"{self.api_url.rstrip('/')}/api/{path.strip('/')}/"
+            response = await client.request(method, url, json=data, params=params)
+            if response.status_code == 400:
+                raise ValueError(response.json())
+            response.raise_for_status()
+            return response.json()
+
+    async def sql_query(self, query: str) -> dict:
+        """Execute SQL query against Waldur API"""
+        return await self._request(
+            "query",
+            "POST",
+            {"query": query},
+        )
+
+    async def send_invitation(
+        self, scope_url: str, role: str, email: str, extra_invitation_text: str | None
+    ) -> dict:
+        """Send invitation to user via Waldur API."""
+        return await self._request(
+            "user-invitations",
+            "POST",
+            {
+                "email": email,
+                "scope": scope_url,
+                "role": role,
+                "extra_invitation_text": extra_invitation_text,
+            },
+        )
+
+    async def list_roles(self, filters: dict = None) -> list[dict]:
+        """List roles with optional filters."""
+        return await self._request("roles", params=filters)
+
+    async def list_customers(self, filters: dict = None) -> list[dict]:
+        """List customers with optional filters."""
+        return await self._request("customers", params=filters)
+
+    async def list_projects(self, filters: dict = None) -> list[dict]:
+        """List projects with optional filters."""
+        return await self._request("projects", params=filters)
+
+    async def list_invoices(self, filters: dict = None) -> list[dict]:
+        """List invoices with optional filters."""
+        return await self._request("invoices", params=filters)
+
+    async def list_resources(self, filters: dict = None) -> list[dict]:
+        """List resources with optional filters."""
+        return await self._request("marketplace-resources", params=filters)
+
+    async def list_offerings(self, filters: dict = None) -> list[dict]:
+        """List offerings with optional filters."""
+        return await self._request("marketplace-offerings", params=filters)
 
 
 # Get credentials from environment variables
@@ -31,119 +84,107 @@ if not api_url or not token:
         "WALDUR_API_URL and WALDUR_TOKEN environment variables must be set"
     )
 
-server = Server("waldur_mcp_server")
+client = WaldurClient(api_url, token)
+
+# Create an MCP server
+mcp = FastMCP("Waldur", dependencies=["httpx"])
 
 
-@server.list_tools()
-async def list_tools() -> list[types.Tool]:
-    """List available Waldur tools."""
-    return [
-        types.Tool(
-            name="query",
-            description="Run a read-only SQL query",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "sql": {
-                        "type": "string",
-                        "description": "SQL query to execute (read-only queries only)",
-                    },
-                },
-                "required": ["sql"],
-            },
-        ),
-        types.Tool(
-            name="project-list",
-            description="List all Waldur projects",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": [],
-            },
-        ),
-        types.Tool(
-            name="customer-list",
-            description="List all Waldur customers",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": [],
-            },
-        ),
-        types.Tool(
-            name="resource-list",
-            description="List resources such as instances, volumes, and networks",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": [],
-            },
-        ),
-    ]
-
-
-@server.call_tool()
-async def call_tool(name: str, arguments: Any) -> Sequence[types.TextContent]:
-    """Handle tool calls for Waldur operations."""
-    queries = {
-        "query": lambda args: args["sql"] if "sql" in args else None,
-        "project-list": lambda _: "SELECT uuid, name, description FROM structure_project",
-        "customer-list": lambda _: "SELECT uuid, name, abbreviation FROM structure_customer",
-        "resource-list": lambda _: "SELECT uuid, name FROM marketplace_resource",
-    }
-
-    if name not in queries:
-        raise ValueError(f"Unknown tool: {name}")
-
-    query = queries[name](arguments)
-    if query is None:
-        raise ValueError("SQL query is required")
-
-    result = await execute_waldur_query(api_url, token, query)
-    return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
-
-
-@server.list_resources()
-async def list_resources() -> List[types.Resource]:
-    """List available Waldur resources that can be used with Claude."""
-    result = await execute_waldur_query(
-        api_url,
-        token,
-        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'",
+@mcp.resource("schema://main")
+async def get_schema() -> list[str]:
+    """Provide the database schema as a resource"""
+    result = await client.sql_query(
+        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
     )
-    return [
-        types.Resource(
-            uri=f"waldur://{row[0]}",
-            name=f"{row[0]} database schema",
-            description=f"{row[0]} database schema",
-            mimeType="application/json",
+    return [row[0] for row in result]
+
+
+@mcp.tool()
+async def query(sql: str) -> dict:
+    """Run a read-only SQL query"""
+    return await client.sql_query(sql)
+
+
+@mcp.tool()
+async def list_customers() -> list[dict]:
+    """List all customers"""
+    return await client.list_customers()
+
+
+@mcp.tool()
+async def list_projects() -> list[dict]:
+    """List all projects"""
+    return await client.list_projects()
+
+
+@mcp.tool()
+async def list_resources() -> list[dict]:
+    """List all resources"""
+    return await client.list_resources()
+
+
+@mcp.tool()
+async def list_invoices() -> list[dict]:
+    """List all invoices"""
+    return await client.list_invoices()
+
+
+@mcp.tool()
+async def list_offerings() -> list[dict]:
+    """List all offerings"""
+    return await client.list_offerings()
+
+
+@mcp.tool()
+async def create_invitation(
+    scope_type: Literal["customer", "project"],
+    scope_name: str,
+    role: str,
+    emails: list[str],
+    extra_invitation_text: str = "",
+) -> list[dict]:
+    """Invite users to project or organization by email
+
+    Args:
+        scope_type: Whether to invite users to organization or project
+        scope_name: Name of the organization or project to invite users to
+        role: Role to assign to invited users
+        emails: List of email addresses to invite
+        extra_invitation_text: Custom message to include in the invitation
+    """
+
+    matching_roles = await client.list_roles({"description": role})
+    if not matching_roles:
+        raise ValueError(f"Role '{role}' not found")
+    role = matching_roles[0]["uuid"]
+
+    if scope_type == "customer":
+        matching_customers = await client.list_customers({"name": scope_name})
+        if not matching_customers:
+            raise ValueError(f"Customer '{scope_name}' not found")
+        scope_url = matching_customers[0]["url"]
+    elif scope_type == "project":
+        matching_projects = await client.list_projects({"name": scope_name})
+        if not matching_projects:
+            raise ValueError(f"Project '{scope_name}' not found")
+        scope_url = matching_projects[0]["url"]
+
+    if not scope_url:
+        raise ValueError(f"Invalid scope type: {scope_type}")
+
+    results = []
+    for email in emails:
+        result = await client.send_invitation(
+            scope_url, role, email, extra_invitation_text
         )
-        for row in result
-    ]
+        results.append(result)
+
+    return results
 
 
-@server.read_resource()
-async def read_resource(uri: AnyUrl) -> str:
-    if uri.scheme != "waldur":
-        raise ValueError(f"Unsupported URI scheme: {uri.scheme}")
-
-    path = str(uri).replace("waldur://", "")
-    if not path:
-        raise ValueError(f"Unsupported path: {path}")
-
-    result = await execute_waldur_query(
-        api_url,
-        token,
-        f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '{path}'",
-    )
-    return json.dumps(result, indent=2)
+def main():
+    mcp.run()
 
 
-async def main():
-    # Import here to avoid issues with event loops
-    from mcp.server.stdio import stdio_server
-
-    async with stdio_server() as (read_stream, write_stream):
-        await server.run(
-            read_stream, write_stream, server.create_initialization_options()
-        )
+if __name__ == "__main__":
+    main()
