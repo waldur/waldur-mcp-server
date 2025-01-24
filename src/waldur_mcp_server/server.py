@@ -105,6 +105,13 @@ async def query(sql: str) -> dict:
     return await client.sql_query(sql)
 
 
+@mcp.prompt()
+async def schema_aware_query(query: str) -> str:
+    with open(os.path.join(os.path.dirname(__file__), "meta.yaml")) as f:
+        schema = f.read()
+        return f"Given the following PostgreSQL database structure {schema} compose SQL query for the following analytical query {query}"
+
+
 @mcp.tool()
 async def list_customers() -> list[dict]:
     """List all customers"""
