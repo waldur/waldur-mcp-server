@@ -1,0 +1,1850 @@
+core_changeemailrequest:
+  app_label: core
+  columns:
+    created:
+      type: DateTime
+    email:
+      type: Email
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    user_id:
+      db_table: core_user
+      type: OneToOne
+    uuid:
+      type: UUID
+  model: changeemailrequest
+  type: Table
+core_feature:
+  app_label: core
+  columns:
+    id:
+      type: PositiveInteger
+    key:
+      type: Text
+    value:
+      type: Boolean
+  model: feature
+  type: Table
+core_notification:
+  app_label: core
+  columns:
+    created:
+      type: DateTime
+    description:
+      type: Char
+    enabled:
+      type: Boolean
+    id:
+      type: PositiveInteger
+    key:
+      type: Char
+    modified:
+      type: DateTime
+    uuid:
+      type: UUID
+  model: notification
+  type: Table
+core_notification_templates:
+  columns:
+    id:
+      type: PositiveInteger
+    notification_id:
+      db_table: core_notification
+      type: ForeignKey
+    notificationtemplate_id:
+      db_table: core_notificationtemplate
+      type: ForeignKey
+  type: ManyToManyTable
+core_notificationtemplate:
+  app_label: core
+  columns:
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    path:
+      type: Char
+    uuid:
+      type: UUID
+  model: notificationtemplate
+  type: Table
+core_sshpublickey:
+  app_label: core
+  columns:
+    fingerprint_md5:
+      type: Char
+    fingerprint_sha256:
+      type: Char
+    fingerprint_sha512:
+      type: Char
+    id:
+      type: PositiveInteger
+    is_shared:
+      type: Boolean
+    name:
+      type: Char
+    public_key:
+      type: Text
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: sshpublickey
+  type: Table
+core_user:
+  app_label: core
+  columns:
+    affiliations:
+      type: JSON
+    agreement_date:
+      type: DateTime
+    backend_id:
+      type: Char
+    civil_number:
+      type: Char
+    date_joined:
+      type: DateTime
+    description:
+      type: Char
+    details:
+      type: JSON
+    email:
+      type: Email
+    first_name:
+      type: Char
+    id:
+      type: PositiveInteger
+    identity_source:
+      type: Char
+    image:
+      type: Image
+    is_active:
+      type: Boolean
+    is_identity_manager:
+      type: Boolean
+    is_staff:
+      type: Boolean
+    is_superuser:
+      type: Boolean
+    is_support:
+      type: Boolean
+    job_title:
+      type: Char
+    last_login:
+      type: DateTime
+    last_name:
+      type: Char
+    last_sync:
+      type: DateTime
+    native_name:
+      type: Char
+    notifications_enabled:
+      type: Boolean
+    organization:
+      type: Char
+    password:
+      type: Char
+    phone_number:
+      type: Char
+    preferred_language:
+      type: Char
+    query_field:
+      type: Char
+    registration_method:
+      type: Char
+    slug:
+      type: Slug
+    token_lifetime:
+      type: PositiveInteger
+    username:
+      type: Char
+    uuid:
+      type: UUID
+  model: user
+  type: Table
+core_user_groups:
+  columns:
+    group_id:
+      db_table: auth_group
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+  type: ManyToManyTable
+core_user_user_permissions:
+  columns:
+    id:
+      type: PositiveInteger
+    permission_id:
+      db_table: auth_permission
+      type: ForeignKey
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+  type: ManyToManyTable
+django_content_type:
+  app_label: contenttypes
+  columns:
+    app_label:
+      type: Char
+    id:
+      type: PositiveInteger
+    model:
+      type: Char
+  model: contenttype
+  type: Table
+invoices_customercredit:
+  app_label: invoices
+  columns:
+    apply_as_minimal_consumption:
+      type: Boolean
+    created:
+      type: DateTime
+    customer_id:
+      db_table: structure_customer
+      type: OneToOne
+    end_date:
+      type: Date
+    expected_consumption:
+      type: Decimal
+    grace_coefficient:
+      type: Decimal
+    id:
+      type: PositiveInteger
+    minimal_consumption_logic:
+      type: Char
+    modified:
+      type: DateTime
+    uuid:
+      type: UUID
+    value:
+      type: Decimal
+  model: customercredit
+  type: Table
+invoices_customercredit_offerings:
+  columns:
+    customercredit_id:
+      db_table: invoices_customercredit
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+  type: ManyToManyTable
+invoices_invoice:
+  app_label: invoices
+  columns:
+    backend_id:
+      type: Char
+    created:
+      type: Date
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    invoice_date:
+      type: Date
+    month:
+      type: PositiveSmallInteger
+    payment_url:
+      type: URL
+    reference_number:
+      type: Char
+    state:
+      type: Char
+    tax_percent:
+      type: Decimal
+    total_cost:
+      type: Decimal
+    total_price:
+      type: Decimal
+    uuid:
+      type: UUID
+    year:
+      type: PositiveSmallInteger
+  model: invoice
+  type: Table
+invoices_invoiceitem:
+  app_label: invoices
+  columns:
+    article_code:
+      type: Char
+    backend_uuid:
+      type: UUID
+    credit_id:
+      db_table: invoices_customercredit
+      type: ForeignKey
+    details:
+      type: JSON
+    end:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    invoice_id:
+      db_table: invoices_invoice
+      type: ForeignKey
+    measured_unit:
+      type: Char
+    name:
+      type: Text
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    project_name:
+      type: Char
+    project_uuid:
+      type: Char
+    quantity:
+      type: Decimal
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    start:
+      type: DateTime
+    unit:
+      type: Char
+    unit_price:
+      type: Decimal
+    uuid:
+      type: UUID
+  model: invoiceitem
+  type: Table
+invoices_payment:
+  app_label: invoices
+  columns:
+    created:
+      type: DateTime
+    date_of_payment:
+      type: Date
+    id:
+      type: PositiveInteger
+    invoice_id:
+      db_table: invoices_invoice
+      type: ForeignKey
+    modified:
+      type: DateTime
+    profile_id:
+      db_table: invoices_paymentprofile
+      type: ForeignKey
+    proof:
+      type: File
+    sum:
+      type: Decimal
+    uuid:
+      type: UUID
+  model: payment
+  type: Table
+invoices_paymentprofile:
+  app_label: invoices
+  columns:
+    attributes:
+      type: JSON
+    id:
+      type: PositiveInteger
+    is_active:
+      type: Boolean
+    name:
+      type: Char
+    organization_id:
+      db_table: structure_customer
+      type: ForeignKey
+    payment_type:
+      choices:
+      - display: Fixed-price contract
+        value: fixed_price
+      - display: Monthly invoices
+        value: invoices
+      - display: Payment gateways (monthly)
+        value: payment_gw_monthly
+      type: PaymentType
+    uuid:
+      type: UUID
+  model: paymentprofile
+  type: Table
+invoices_projectcredit:
+  app_label: invoices
+  columns:
+    apply_as_minimal_consumption:
+      type: Boolean
+    created:
+      type: DateTime
+    end_date:
+      type: Date
+    expected_consumption:
+      type: Decimal
+    grace_coefficient:
+      type: Decimal
+    id:
+      type: PositiveInteger
+    minimal_consumption_logic:
+      type: Char
+    modified:
+      type: DateTime
+    project_id:
+      db_table: structure_project
+      type: OneToOne
+    uuid:
+      type: UUID
+    value:
+      type: Decimal
+  model: projectcredit
+  type: Table
+marketplace_attribute:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    default:
+      type: JSON
+    key:
+      type: Char
+    modified:
+      type: DateTime
+    required:
+      type: Boolean
+    section_id:
+      db_table: marketplace_section
+      type: ForeignKey
+    title:
+      type: Char
+    type:
+      type: Char
+  model: attribute
+  type: Table
+marketplace_attributeoption:
+  app_label: marketplace
+  columns:
+    attribute_id:
+      db_table: marketplace_attribute
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    key:
+      type: Char
+    title:
+      type: Char
+  model: attributeoption
+  type: Table
+marketplace_category:
+  app_label: marketplace
+  columns:
+    backend_id:
+      type: Char
+    created:
+      type: DateTime
+    default_tenant_category:
+      type: Boolean
+    default_vm_category:
+      type: Boolean
+    default_volume_category:
+      type: Boolean
+    description:
+      type: Text
+    group_id:
+      db_table: marketplace_categorygroup
+      type: ForeignKey
+    icon:
+      type: File
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    title:
+      type: Char
+    uuid:
+      type: UUID
+  model: category
+  type: Table
+marketplace_categorycolumn:
+  app_label: marketplace
+  columns:
+    attribute:
+      type: Char
+    category_id:
+      db_table: marketplace_category
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    index:
+      type: PositiveSmallInteger
+    title:
+      type: Char
+    uuid:
+      type: UUID
+    widget:
+      type: Char
+  model: categorycolumn
+  type: Table
+marketplace_categorycomponent:
+  app_label: marketplace
+  columns:
+    category_id:
+      db_table: marketplace_category
+      type: ForeignKey
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    measured_unit:
+      type: Char
+    name:
+      type: Char
+    type:
+      type: Char
+    uuid:
+      type: UUID
+  model: categorycomponent
+  type: Table
+marketplace_categorycomponentusage:
+  app_label: marketplace
+  columns:
+    component_id:
+      db_table: marketplace_categorycomponent
+      type: ForeignKey
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    date:
+      type: Date
+    fixed_usage:
+      type: BigInteger
+    id:
+      type: PositiveInteger
+    object_id:
+      type: PositiveInteger
+    reported_usage:
+      type: BigInteger
+  model: categorycomponentusage
+  type: Table
+marketplace_categorygroup:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    description:
+      type: Text
+    icon:
+      type: File
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    title:
+      type: Char
+    uuid:
+      type: UUID
+  model: categorygroup
+  type: Table
+marketplace_categoryhelparticle:
+  app_label: marketplace
+  columns:
+    id:
+      type: PositiveInteger
+    title:
+      type: Char
+    url:
+      type: URL
+  model: categoryhelparticle
+  type: Table
+marketplace_categoryhelparticle_categories:
+  columns:
+    category_id:
+      db_table: marketplace_category
+      type: ForeignKey
+    categoryhelparticle_id:
+      db_table: marketplace_categoryhelparticle
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+  type: ManyToManyTable
+marketplace_componentquota:
+  app_label: marketplace
+  columns:
+    component_id:
+      db_table: marketplace_offeringcomponent
+      type: ForeignKey
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    limit:
+      type: Decimal
+    modified:
+      type: DateTime
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    usage:
+      type: Decimal
+  model: componentquota
+  type: Table
+marketplace_componentusage:
+  app_label: marketplace
+  columns:
+    backend_id:
+      type: Char
+    billing_period:
+      type: Date
+    component_id:
+      db_table: marketplace_offeringcomponent
+      type: ForeignKey
+    created:
+      type: DateTime
+    date:
+      type: DateTime
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    modified_by_id:
+      db_table: core_user
+      type: ForeignKey
+    plan_period_id:
+      db_table: marketplace_resourceplanperiod
+      type: ForeignKey
+    recurring:
+      type: Boolean
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    usage:
+      type: Decimal
+    uuid:
+      type: UUID
+  model: componentusage
+  type: Table
+marketplace_componentuserusage:
+  app_label: marketplace
+  columns:
+    backend_id:
+      type: Char
+    component_usage_id:
+      db_table: marketplace_componentusage
+      type: ForeignKey
+    created:
+      type: DateTime
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    usage:
+      type: Decimal
+    user_id:
+      db_table: marketplace_offeringuser
+      type: ForeignKey
+    username:
+      type: Char
+    uuid:
+      type: UUID
+  model: componentuserusage
+  type: Table
+marketplace_componentuserusagelimit:
+  app_label: marketplace
+  columns:
+    component_id:
+      db_table: marketplace_offeringcomponent
+      type: ForeignKey
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    limit:
+      type: Decimal
+    modified:
+      type: DateTime
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    user_id:
+      db_table: marketplace_offeringuser
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: componentuserusagelimit
+  type: Table
+marketplace_integrationstatus:
+  app_label: marketplace
+  columns:
+    agent_type:
+      type: Char
+    id:
+      type: PositiveInteger
+    last_request_timestamp:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    status:
+      choices:
+      - display: Unknown
+        value: 1
+      - display: Active
+        value: 2
+      - display: Disconnected
+        value: 3
+      type: PositiveInteger
+    uuid:
+      type: UUID
+  model: integrationstatus
+  type: Table
+marketplace_offering:
+  app_label: marketplace
+  columns:
+    access_url:
+      type: URL
+    attributes:
+      type: JSON
+    backend_id:
+      type: Char
+    backend_metadata:
+      type: JSON
+    billable:
+      type: Boolean
+    category_id:
+      db_table: marketplace_category
+      type: ForeignKey
+    citation_count:
+      type: Integer
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    country:
+      type: Char
+    created:
+      type: DateTime
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    datacite_doi:
+      type: Char
+    description:
+      type: Char
+    error_message:
+      type: Text
+    full_description:
+      type: Text
+    getting_started:
+      type: Text
+    id:
+      type: PositiveInteger
+    image:
+      type: Image
+    integration_guide:
+      type: Text
+    latitude:
+      type: Float
+    longitude:
+      type: Float
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    native_description:
+      type: Char
+    native_name:
+      type: Char
+    object_id:
+      type: PositiveInteger
+    options:
+      type: JSON
+    parent_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    paused_reason:
+      type: Text
+    plugin_options:
+      type: JSON
+    privacy_policy_link:
+      type: URL
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    rating:
+      type: Integer
+    resource_options:
+      type: JSON
+    secret_options:
+      type: JSON
+    shared:
+      type: Boolean
+    slug:
+      type: Slug
+    state:
+      choices:
+      - display: Draft
+        value: 1
+      - display: Active
+        value: 2
+      - display: Paused
+        value: 3
+      - display: Archived
+        value: 4
+      type: PositiveInteger
+    support_per_user_consumption_limitation:
+      type: Boolean
+    terms_of_service:
+      type: Text
+    terms_of_service_link:
+      type: URL
+    thumbnail:
+      type: File
+    type:
+      type: Char
+    uuid:
+      type: UUID
+    vendor_details:
+      type: Text
+  model: offering
+  type: Table
+marketplace_offering_organization_groups:
+  columns:
+    id:
+      type: PositiveInteger
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    organizationgroup_id:
+      db_table: structure_organizationgroup
+      type: ForeignKey
+  type: ManyToManyTable
+marketplace_offeringaccessendpoint:
+  app_label: marketplace
+  columns:
+    id:
+      type: PositiveInteger
+    name:
+      type: Char
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    url:
+      type: BackendURL
+    uuid:
+      type: UUID
+  model: offeringaccessendpoint
+  type: Table
+marketplace_offeringcomponent:
+  app_label: marketplace
+  columns:
+    article_code:
+      type: Char
+    backend_id:
+      type: Char
+    billing_type:
+      type: Char
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    default_limit:
+      type: Integer
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    is_boolean:
+      type: Boolean
+    limit_amount:
+      type: Integer
+    limit_period:
+      type: Char
+    max_available_limit:
+      type: Integer
+    max_value:
+      type: Integer
+    measured_unit:
+      type: Char
+    min_value:
+      type: Integer
+    name:
+      type: Char
+    object_id:
+      type: PositiveInteger
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    parent_id:
+      db_table: marketplace_categorycomponent
+      type: ForeignKey
+    type:
+      type: Char
+    unit_factor:
+      type: Integer
+    uuid:
+      type: UUID
+  model: offeringcomponent
+  type: Table
+marketplace_offeringfile:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    file:
+      type: File
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: offeringfile
+  type: Table
+marketplace_offeringuser:
+  app_label: marketplace
+  columns:
+    backend_metadata:
+      type: JSON
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    is_restricted:
+      type: Boolean
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    propagation_date:
+      type: DateTime
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+    username:
+      type: Char
+    uuid:
+      type: UUID
+  model: offeringuser
+  type: Table
+marketplace_offeringusergroup:
+  app_label: marketplace
+  columns:
+    backend_metadata:
+      type: JSON
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+  model: offeringusergroup
+  type: Table
+marketplace_offeringusergroup_projects:
+  columns:
+    id:
+      type: PositiveInteger
+    offeringusergroup_id:
+      db_table: marketplace_offeringusergroup
+      type: ForeignKey
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+  type: ManyToManyTable
+marketplace_offeringuserrole:
+  app_label: marketplace
+  columns:
+    id:
+      type: PositiveInteger
+    name:
+      type: Char
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: offeringuserrole
+  type: Table
+marketplace_order:
+  app_label: marketplace
+  columns:
+    activated:
+      type: DateTime
+    attributes:
+      type: JSON
+    backend_id:
+      type: Char
+    callback_url:
+      type: URL
+    consumer_reviewed_at:
+      type: DateTime
+    consumer_reviewed_by_id:
+      db_table: core_user
+      type: ForeignKey
+    cost:
+      type: Decimal
+    created:
+      type: DateTime
+    created_by_id:
+      db_table: core_user
+      type: ForeignKey
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    id:
+      type: PositiveInteger
+    limits:
+      type: JSON
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    old_plan_id:
+      db_table: marketplace_plan
+      type: ForeignKey
+    output:
+      type: Text
+    plan_id:
+      db_table: marketplace_plan
+      type: ForeignKey
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    provider_reviewed_at:
+      type: DateTime
+    provider_reviewed_by_id:
+      db_table: core_user
+      type: ForeignKey
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    state:
+      choices:
+      - display: pending-consumer
+        value: 1
+      - display: pending-provider
+        value: 7
+      - display: pending-project
+        value: 8
+      - display: executing
+        value: 2
+      - display: done
+        value: 3
+      - display: erred
+        value: 4
+      - display: canceled
+        value: 5
+      - display: rejected
+        value: 6
+      type: PositiveInteger
+    termination_comment:
+      type: Char
+    type:
+      choices:
+      - display: Create
+        value: 1
+      - display: Update
+        value: 2
+      - display: Terminate
+        value: 3
+      type: PositiveSmallInteger
+    uuid:
+      type: UUID
+  model: order
+  type: Table
+marketplace_plan:
+  app_label: marketplace
+  columns:
+    archived:
+      type: Boolean
+    article_code:
+      type: Char
+    backend_id:
+      type: Char
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    created:
+      type: DateTime
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    max_amount:
+      type: PositiveSmallInteger
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    object_id:
+      type: PositiveInteger
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    unit:
+      type: Char
+    unit_price:
+      type: Decimal
+    uuid:
+      type: UUID
+  model: plan
+  type: Table
+marketplace_plan_organization_groups:
+  columns:
+    id:
+      type: PositiveInteger
+    organizationgroup_id:
+      db_table: structure_organizationgroup
+      type: ForeignKey
+    plan_id:
+      db_table: marketplace_plan
+      type: ForeignKey
+  type: ManyToManyTable
+marketplace_plancomponent:
+  app_label: marketplace
+  columns:
+    amount:
+      type: PositiveInteger
+    component_id:
+      db_table: marketplace_offeringcomponent
+      type: ForeignKey
+    future_price:
+      type: Decimal
+    id:
+      type: PositiveInteger
+    plan_id:
+      db_table: marketplace_plan
+      type: ForeignKey
+    price:
+      type: Decimal
+  model: plancomponent
+  type: Table
+marketplace_resource:
+  app_label: marketplace
+  columns:
+    attributes:
+      type: JSON
+    backend_id:
+      type: Char
+    backend_metadata:
+      type: JSON
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    cost:
+      type: Decimal
+    created:
+      type: DateTime
+    current_usages:
+      type: JSON
+    description:
+      type: Char
+    downscaled:
+      type: Boolean
+    effective_id:
+      type: Char
+    end_date:
+      type: Date
+    end_date_requested_by_id:
+      db_table: core_user
+      type: ForeignKey
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    id:
+      type: PositiveInteger
+    last_sync:
+      type: DateTime
+    limits:
+      type: JSON
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    object_id:
+      type: PositiveInteger
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    options:
+      type: JSON
+    parent_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    paused:
+      type: Boolean
+    plan_id:
+      db_table: marketplace_plan
+      type: ForeignKey
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    report:
+      type: JSON
+    restrict_member_access:
+      type: Boolean
+    slug:
+      type: Slug
+    state:
+      choices:
+      - display: Creating
+        value: 1
+      - display: OK
+        value: 2
+      - display: Erred
+        value: 3
+      - display: Updating
+        value: 4
+      - display: Terminating
+        value: 5
+      - display: Terminated
+        value: 6
+      type: PositiveInteger
+    uuid:
+      type: UUID
+  model: resource
+  type: Table
+marketplace_resourceaccessendpoint:
+  app_label: marketplace
+  columns:
+    id:
+      type: PositiveInteger
+    name:
+      type: Char
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    url:
+      type: BackendURL
+    uuid:
+      type: UUID
+  model: resourceaccessendpoint
+  type: Table
+marketplace_resourceplanperiod:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    end:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    plan_id:
+      db_table: marketplace_plan
+      type: ForeignKey
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    start:
+      type: DateTime
+    uuid:
+      type: UUID
+  model: resourceplanperiod
+  type: Table
+marketplace_resourceuser:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    role_id:
+      db_table: marketplace_offeringuserrole
+      type: ForeignKey
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: resourceuser
+  type: Table
+marketplace_robotaccount:
+  app_label: marketplace
+  columns:
+    backend_id:
+      type: Char
+    backend_metadata:
+      type: JSON
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    keys:
+      type: JSON
+    modified:
+      type: DateTime
+    resource_id:
+      db_table: marketplace_resource
+      type: ForeignKey
+    responsible_user_id:
+      db_table: core_user
+      type: ForeignKey
+    type:
+      type: Char
+    username:
+      type: Char
+    uuid:
+      type: UUID
+  model: robotaccount
+  type: Table
+marketplace_robotaccount_users:
+  columns:
+    id:
+      type: PositiveInteger
+    robotaccount_id:
+      db_table: marketplace_robotaccount
+      type: ForeignKey
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+  type: ManyToManyTable
+marketplace_screenshot:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    image:
+      type: Image
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    thumbnail:
+      type: Image
+    uuid:
+      type: UUID
+  model: screenshot
+  type: Table
+marketplace_section:
+  app_label: marketplace
+  columns:
+    category_id:
+      db_table: marketplace_category
+      type: ForeignKey
+    created:
+      type: DateTime
+    is_standalone:
+      type: Boolean
+    key:
+      type: Char
+    modified:
+      type: DateTime
+    title:
+      type: Char
+  model: section
+  type: Table
+marketplace_serviceprovider:
+  app_label: marketplace
+  columns:
+    api_secret_code:
+      type: Char
+    created:
+      type: DateTime
+    customer_id:
+      db_table: structure_customer
+      type: OneToOne
+    description:
+      type: Char
+    enable_notifications:
+      type: Boolean
+    id:
+      type: PositiveInteger
+    image:
+      type: Image
+    lead_body:
+      type: Text
+    lead_email:
+      type: Email
+    lead_subject:
+      type: Char
+    modified:
+      type: DateTime
+    uuid:
+      type: UUID
+  model: serviceprovider
+  type: Table
+permissions_role:
+  app_label: permissions
+  columns:
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    is_active:
+      type: Boolean
+    is_system_role:
+      type: Boolean
+    name:
+      type: Char
+    uuid:
+      type: UUID
+  model: role
+  type: Table
+permissions_rolepermission:
+  app_label: permissions
+  columns:
+    id:
+      type: PositiveInteger
+    permission:
+      type: Char
+    role_id:
+      db_table: permissions_role
+      type: ForeignKey
+  model: rolepermission
+  type: Table
+permissions_userrole:
+  app_label: permissions
+  columns:
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    created:
+      type: DateTime
+    created_by_id:
+      db_table: core_user
+      type: ForeignKey
+    expiration_time:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    is_active:
+      type: Boolean
+    object_id:
+      type: PositiveInteger
+    role_id:
+      db_table: permissions_role
+      type: ForeignKey
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: userrole
+  type: Table
+structure_accesssubnet:
+  app_label: structure
+  columns:
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    inet:
+      type: CidrAddress
+    uuid:
+      type: UUID
+  model: accesssubnet
+  type: Table
+structure_customer:
+  app_label: structure
+  columns:
+    abbreviation:
+      type: Char
+    access_subnets:
+      type: Text
+    accounting_start_date:
+      type: DateTime
+    address:
+      type: Char
+    agreement_number:
+      type: Char
+    archived:
+      type: Boolean
+    backend_id:
+      type: Char
+    bank_account:
+      type: Char
+    bank_name:
+      type: Char
+    blocked:
+      type: Boolean
+    contact_details:
+      type: Text
+    country:
+      type: Char
+    created:
+      type: DateTime
+    default_tax_percent:
+      type: Decimal
+    domain:
+      type: Char
+    email:
+      type: Email
+    homepage:
+      type: URL
+    id:
+      type: PositiveInteger
+    image:
+      type: Image
+    latitude:
+      type: Float
+    longitude:
+      type: Float
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    native_name:
+      type: Char
+    phone_number:
+      type: Char
+    postal:
+      type: Char
+    registration_code:
+      type: Char
+    slug:
+      type: Slug
+    sponsor_number:
+      type: PositiveInteger
+    uuid:
+      type: UUID
+    vat_address:
+      type: Char
+    vat_code:
+      type: Char
+    vat_name:
+      type: Char
+  model: customer
+  type: Table
+structure_customer_organization_groups:
+  columns:
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    organizationgroup_id:
+      db_table: structure_organizationgroup
+      type: ForeignKey
+  type: ManyToManyTable
+structure_customerpermissionreview:
+  app_label: structure
+  columns:
+    closed:
+      type: DateTime
+    created:
+      type: DateTime
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    is_pending:
+      type: Boolean
+    reviewer_id:
+      db_table: core_user
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: customerpermissionreview
+  type: Table
+structure_organizationgroup:
+  app_label: structure
+  columns:
+    id:
+      type: PositiveInteger
+    name:
+      type: Char
+    parent_id:
+      db_table: structure_organizationgroup
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: organizationgroup
+  type: Table
+structure_project:
+  app_label: structure
+  columns:
+    backend_id:
+      type: Char
+    created:
+      type: DateTime
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    description:
+      type: Char
+    end_date:
+      type: Date
+    end_date_requested_by_id:
+      db_table: core_user
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    image:
+      type: Image
+    is_industry:
+      type: Boolean
+    is_removed:
+      type: Boolean
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    oecd_fos_2007_code:
+      type: Char
+    slug:
+      type: Slug
+    start_date:
+      type: Date
+    type_id:
+      db_table: structure_projecttype
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: project
+  type: Table
+structure_projecttype:
+  app_label: structure
+  columns:
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    name:
+      type: Char
+    uuid:
+      type: UUID
+  model: projecttype
+  type: Table
+structure_servicesettings:
+  app_label: structure
+  columns:
+    backend_url:
+      type: BackendURL
+    certificate:
+      type: File
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    domain:
+      type: Char
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    id:
+      type: PositiveInteger
+    is_active:
+      type: Boolean
+    name:
+      type: Char
+    object_id:
+      type: PositiveInteger
+    options:
+      type: JSON
+    password:
+      type: Char
+    shared:
+      type: Boolean
+    state:
+      choices:
+      - display: Creation Scheduled
+        value: 5
+      - display: Creating
+        value: 6
+      - display: Update Scheduled
+        value: 1
+      - display: Updating
+        value: 2
+      - display: Deletion Scheduled
+        value: 7
+      - display: Deleting
+        value: 8
+      - display: OK
+        value: 3
+      - display: Erred
+        value: 4
+      type: PositiveInteger
+    terms_of_services:
+      type: URL
+    token:
+      type: Char
+    type:
+      type: Char
+    username:
+      type: Char
+    uuid:
+      type: UUID
+  model: servicesettings
+  type: Table
+structure_useragreement:
+  app_label: structure
+  columns:
+    agreement_type:
+      type: Char
+    content:
+      type: Text
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    uuid:
+      type: UUID
+  model: useragreement
+  type: Table
+users_groupinvitation:
+  app_label: users
+  columns:
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    created:
+      type: DateTime
+    created_by_id:
+      db_table: core_user
+      type: ForeignKey
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    is_active:
+      type: Boolean
+    modified:
+      type: DateTime
+    object_id:
+      type: PositiveInteger
+    role_id:
+      db_table: permissions_role
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: groupinvitation
+  type: Table
+users_invitation:
+  app_label: users
+  columns:
+    affiliations:
+      type: JSON
+    approved_by_id:
+      db_table: core_user
+      type: ForeignKey
+    civil_number:
+      type: Char
+    content_type_id:
+      db_table: django_content_type
+      type: ForeignKey
+    created:
+      type: DateTime
+    created_by_id:
+      db_table: core_user
+      type: ForeignKey
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    email:
+      type: Email
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    execution_state:
+      type: FSM
+    extra_invitation_text:
+      type: Text
+    full_name:
+      type: Char
+    id:
+      type: PositiveInteger
+    job_title:
+      type: Char
+    modified:
+      type: DateTime
+    native_name:
+      type: Char
+    object_id:
+      type: PositiveInteger
+    organization:
+      type: Char
+    phone_number:
+      type: Char
+    role_id:
+      db_table: permissions_role
+      type: ForeignKey
+    state:
+      type: Char
+    tax_number:
+      type: Char
+    uuid:
+      type: UUID
+  model: invitation
+  type: Table
+users_permissionrequest:
+  app_label: users
+  columns:
+    created:
+      type: DateTime
+    created_by_id:
+      db_table: core_user
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    invitation_id:
+      db_table: users_groupinvitation
+      type: ForeignKey
+    modified:
+      type: DateTime
+    review_comment:
+      type: Text
+    reviewed_at:
+      type: DateTime
+    reviewed_by_id:
+      db_table: core_user
+      type: ForeignKey
+    state:
+      choices:
+      - display: draft
+        value: 1
+      - display: pending
+        value: 2
+      - display: approved
+        value: 3
+      - display: rejected
+        value: 4
+      - display: canceled
+        value: 5
+      type: PositiveInteger
+    uuid:
+      type: UUID
+  model: permissionrequest
+  type: Table
+
