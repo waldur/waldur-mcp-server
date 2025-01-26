@@ -106,10 +106,10 @@ async def query(sql: str) -> dict:
 
 
 @mcp.prompt()
-async def schema_aware_query(query: str) -> str:
+async def schema_aware_query() -> str:
     with open(os.path.join(os.path.dirname(__file__), "meta.yaml")) as f:
         schema = f.read()
-        return f"Given the following PostgreSQL database structure {schema} compose SQL query for the following analytical query {query}"
+        return f"Given the following PostgreSQL database structure:\n {schema}\n compose SQL query for the following analytical query:\n"
 
 
 @mcp.tool()
