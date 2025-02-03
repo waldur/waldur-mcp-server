@@ -774,8 +774,6 @@ marketplace_offering:
     project_id:
       db_table: structure_project
       type: ForeignKey
-    rating:
-      type: Integer
     resource_options:
       type: JSON
     secret_options:
