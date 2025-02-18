@@ -53,7 +53,20 @@ On Windows: `\AppData\Roaming\Claude\claude_desktop_config.json`
 
 ## Development
 
-### Building and Publishing
+### Releasing a New Version via GitLab CI
+
+To deploy a new release:
+
+1. Create and push a new tag:
+
+    ```bash
+    git tag v0.1.0
+    git push origin v0.1.0
+    ```
+
+2. The CI pipeline will automatically build and publish the package to PyPI.
+
+### Building and Publishing manually
 
 To prepare the package for distribution:
 
@@ -77,6 +90,20 @@ uv publish
 Note: You'll need to set PyPI credentials via environment variables or command flags:
 - Token: `--token` or `UV_PUBLISH_TOKEN`
 - Or username/password: `--username`/`UV_PUBLISH_USERNAME` and `--password`/`UV_PUBLISH_PASSWORD`
+
+### Installation
+
+To install the released package:
+
+```bash
+pip install waldur-mcp-server
+```
+
+Or with uv:
+
+```bash
+uv pip install waldur-mcp-server
+```
 
 ### Debugging
 
