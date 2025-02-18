@@ -93,7 +93,7 @@ Note: You'll need to set PyPI credentials via environment variables or command f
 
 ### Installation
 
-To install the released package:
+To install the package:
 
 ```bash
 pip install waldur-mcp-server
