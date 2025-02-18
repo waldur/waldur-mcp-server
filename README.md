@@ -60,8 +60,8 @@ To deploy a new release:
 1. Create and push a new tag:
 
     ```bash
-    git tag v0.1.0
-    git push origin v0.1.0
+    git tag 0.1.0
+    git push origin 0.1.0
     ```
 
 2. The CI pipeline will automatically build and publish the package to PyPI.
