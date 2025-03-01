@@ -1,5 +1,7 @@
 # Waldur MCP server
 
+<a href="https://glama.ai/mcp/servers/w4fbsg6izf"><img width="380" height="200" src="https://glama.ai/mcp/servers/w4fbsg6izf/badge" alt="Waldur Server MCP server" /></a>
+
 ## Quickstart
 
 1. Install Claude Desktop for your platform from the [Claude Desktop releases page](https://claude.ai/download)
