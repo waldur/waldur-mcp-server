@@ -754,10 +754,6 @@ marketplace_offering:
       type: DateTime
     name:
       type: Char
-    native_description:
-      type: Char
-    native_name:
-      type: Char
     object_id:
       type: PositiveInteger
     options:
@@ -985,6 +981,8 @@ marketplace_order:
       type: Char
     callback_url:
       type: URL
+    completed_at:
+      type: DateTime
     consumer_reviewed_at:
       type: DateTime
     consumer_reviewed_by_id:
@@ -1799,8 +1797,6 @@ users_invitation:
       db_table: permissions_role
       type: ForeignKey
     state:
-      type: Char
-    tax_number:
       type: Char
     uuid:
       type: UUID
