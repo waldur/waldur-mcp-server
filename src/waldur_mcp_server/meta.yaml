@@ -1671,21 +1671,21 @@ structure_servicesettings:
       type: Boolean
     state:
       choices:
-      - display: Creation Scheduled
+      - display: CREATION_SCHEDULED
         value: 5
-      - display: Creating
+      - display: CREATING
         value: 6
-      - display: Update Scheduled
+      - display: UPDATE_SCHEDULED
         value: 1
-      - display: Updating
+      - display: UPDATING
         value: 2
-      - display: Deletion Scheduled
+      - display: DELETION_SCHEDULED
         value: 7
-      - display: Deleting
+      - display: DELETING
         value: 8
       - display: OK
         value: 3
-      - display: Erred
+      - display: ERRED
         value: 4
       type: PositiveInteger
     terms_of_services:
