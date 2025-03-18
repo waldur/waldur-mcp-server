@@ -4,7 +4,7 @@
 
 1. Install Claude Desktop for your platform from the [Claude Desktop releases page](https://claude.ai/download)
 
-2. Install Python 3.10 or higher.
+2. Install Python 3.13 or higher.
 
 3. Install uv package manager.
 
