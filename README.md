@@ -24,9 +24,9 @@ uv pip install waldur-mcp-server
 
 ### Claude Desktop MCP Server Configuration
 
-On Windows: `\AppData\Roaming\Claude\claude_desktop_config.json`
+On Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
-On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
+On MacOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
 <details>
   <summary>Development/Unpublished Servers Configuration</summary>
@@ -43,7 +43,7 @@ On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
         "waldur-mcp-server"
       ],
       "env": {
-        "WALDUR_API_URL": "https://your-waldur-instance/api",
+        "WALDUR_API_URL": "https://your-waldur-instance",
         "WALDUR_TOKEN": "your-token"
       }
     }
@@ -65,7 +65,7 @@ On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
         "waldur-mcp-server"
       ],
       "env": {
-        "WALDUR_API_URL": "https://your-waldur-instance/api",
+        "WALDUR_API_URL": "https://your-waldur-instance",
         "WALDUR_TOKEN": "your-token"
       }
     }
@@ -76,6 +76,11 @@ On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
 </details>
 
 ### Debugging
+
+On macOS, log files are located at `~/Library/Logs/Claude/mcp.log`
+
+If you encounter a `spawn uvx ENOENT` error, verify that your PATH environment variable includes the Python installation directory where `uv` is installed. Alternatively, you can specify the full path to `uvx` in the configuration file, for example:
+`~/Library/Frameworks/Python.framework/Versions/3.13/bin/uvx`
 
 Since MCP servers run over stdio, debugging can be challenging. For the best debugging
 experience, we strongly recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
