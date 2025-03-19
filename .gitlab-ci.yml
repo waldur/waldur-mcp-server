@@ -16,3 +16,24 @@ Run python v3.11 linters:
       echo 'default_language_version:' >> .pre-commit-config.yaml
       echo '  python: python3.11' >> .pre-commit-config.yaml
     - cat .pre-commit-config.yaml
+
+Upload docs:
+  image:
+    name: registry.hpc.ut.ee/mirror/alpine/git:v2.30.2
+    entrypoint: [""]
+  stage: deploy
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "schedule"'
+  script:
+    - cd /tmp/
+    - git clone "https://gitlab-ci-token:$GITLAB_TOKEN@$CI_SERVER_HOST/waldur/waldur-docs.git"
+    - git config --global user.name "$GITLAB_USER_NAME"
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - cd waldur-docs/
+    - mkdir -p docs/integrations/waldur-mcp-server
+    - cp -vf $CI_PROJECT_DIR/README.md docs/integrations/waldur-mcp-server/README.md
+    - git add docs/integrations/waldur-mcp-server/
+    - git commit -m 'Update Waldur MCP Server docs' || exit 0
+    - git branch new-mcp-server-docs
+    - git push --set-upstream origin new-mcp-server-docs:main
