@@ -1,5 +1,7 @@
 # Waldur MCP server
 
+Waldur MCP server enables integration between Waldur instance and Claude Desktop by implementing the Model Context Protocol (MCP). This allows Claude to interact with your Waldur instance directly.
+
 ## Quickstart
 
 1. Install Claude Desktop for your platform from the [Claude Desktop releases page](https://claude.ai/download)
@@ -21,6 +23,12 @@ Or with uv:
 ```bash
 uv pip install waldur-mcp-server
 ```
+
+### Generate Waldur Token
+
+1. Log in to your Waldur instance
+2. Navigate to Username > Credentials > API Token
+3. Generate a new token with appropriate token lifetime - you'll need it for configuration
 
 ### Claude Desktop MCP Server Configuration
 
@@ -92,6 +100,11 @@ npx @modelcontextprotocol/inspector uv --directory C:\\waldur_service run waldur
 ```
 
 When debugging, you'll need to set the required environment variables. Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
+
+### Common issues
+
+- Invalid token: Verify token permissions and expiration
+- Connection issues: Check WALDUR_API_URL is accessible
 
 ## Development
 
