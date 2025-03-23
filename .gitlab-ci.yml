@@ -36,5 +36,7 @@ Upload docs:
     - git add docs/integrations/waldur-mcp-server/
     - git commit -m 'Update Waldur MCP Server docs' || exit 0
     - git branch new-mcp-server-docs
+    - git checkout new-mcp-server-docs
+    - git pull origin main
     - git status
     - git push --set-upstream origin new-mcp-server-docs:main
