@@ -105,7 +105,3 @@ When debugging, you'll need to set the required environment variables. Upon laun
 
 - Invalid token: Verify token permissions and expiration
 - Connection issues: Check WALDUR_API_URL is accessible
-
-## Development
-
-For information about development and releasing new versions, see [RELEASING.md](RELEASING.md).
