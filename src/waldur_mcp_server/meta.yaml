@@ -77,6 +77,8 @@ core_notificationtemplate:
 core_sshpublickey:
   app_label: core
   columns:
+    created:
+      type: DateTime
     fingerprint_md5:
       type: Char
     fingerprint_sha256:
@@ -87,6 +89,8 @@ core_sshpublickey:
       type: PositiveInteger
     is_shared:
       type: Boolean
+    modified:
+      type: DateTime
     name:
       type: Char
     public_key:
