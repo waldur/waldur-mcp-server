@@ -693,6 +693,8 @@ marketplace_integrationstatus:
     offering_id:
       db_table: marketplace_offering
       type: ForeignKey
+    service_name:
+      type: Char
     status:
       choices:
       - display: Unknown
