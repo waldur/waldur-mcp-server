@@ -147,6 +147,8 @@ core_user:
       type: Char
     last_sync:
       type: DateTime
+    modified:
+      type: DateTime
     native_name:
       type: Char
     notifications_enabled:
@@ -924,8 +926,6 @@ marketplace_offeringuser:
     offering_id:
       db_table: marketplace_offering
       type: ForeignKey
-    propagation_date:
-      type: DateTime
     user_id:
       db_table: core_user
       type: ForeignKey
