@@ -1442,6 +1442,8 @@ permissions_userrole:
       type: PositiveInteger
     is_active:
       type: Boolean
+    modified:
+      type: DateTime
     object_id:
       type: PositiveInteger
     role_id:
