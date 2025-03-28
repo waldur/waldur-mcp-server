@@ -1,79 +1,26 @@
 import os
-from typing import Literal
+from typing import Any, Literal
 
 from mcp.server.fastmcp import FastMCP
-import httpx
-
-
-class WaldurClient:
-    def __init__(self, api_url: str, token: str):
-        self.api_url = api_url
-        self.token = token
-
-    async def _request(
-        self, path: str, method: str = "GET", data: dict = None, params: dict = None
-    ) -> dict:
-        """Make HTTP request to Waldur API"""
-        headers = {
-            "Authorization": f"Token {self.token}",
-            "Content-Type": "application/json",
-        }
-
-        async with httpx.AsyncClient(headers=headers, timeout=30.0) as client:
-            url = f"{self.api_url.rstrip('/')}/api/{path.strip('/')}/"
-            response = await client.request(method, url, json=data, params=params)
-            if response.status_code == 400:
-                raise ValueError(response.json())
-            response.raise_for_status()
-            return response.json()
-
-    async def sql_query(self, query: str) -> dict:
-        """Execute SQL query against Waldur API"""
-        return await self._request(
-            "query",
-            "POST",
-            {"query": query},
-        )
-
-    async def send_invitation(
-        self, scope_url: str, role: str, email: str, extra_invitation_text: str | None
-    ) -> dict:
-        """Send invitation to user via Waldur API."""
-        return await self._request(
-            "user-invitations",
-            "POST",
-            {
-                "email": email,
-                "scope": scope_url,
-                "role": role,
-                "extra_invitation_text": extra_invitation_text,
-            },
-        )
-
-    async def list_roles(self, filters: dict = None) -> list[dict]:
-        """List roles with optional filters."""
-        return await self._request("roles", params=filters)
-
-    async def list_customers(self, filters: dict = None) -> list[dict]:
-        """List customers with optional filters."""
-        return await self._request("customers", params=filters)
-
-    async def list_projects(self, filters: dict = None) -> list[dict]:
-        """List projects with optional filters."""
-        return await self._request("projects", params=filters)
-
-    async def list_invoices(self, filters: dict = None) -> list[dict]:
-        """List invoices with optional filters."""
-        return await self._request("invoices", params=filters)
-
-    async def list_resources(self, filters: dict = None) -> list[dict]:
-        """List resources with optional filters."""
-        return await self._request("marketplace-resources", params=filters)
-
-    async def list_offerings(self, filters: dict = None) -> list[dict]:
-        """List offerings with optional filters."""
-        return await self._request("marketplace-offerings", params=filters)
-
+from waldur_api_client.api.customers import customers_list
+from waldur_api_client.api.invoices import invoices_list
+from waldur_api_client.api.marketplace_public_offerings import (
+    marketplace_public_offerings_list,
+)
+from waldur_api_client.api.marketplace_resources import marketplace_resources_list
+from waldur_api_client.api.projects import projects_list
+from waldur_api_client.api.query import query as api_query
+from waldur_api_client.api.roles import roles_list
+from waldur_api_client.api.user_invitations import user_invitations_create
+from waldur_api_client.client import AuthenticatedClient
+from waldur_api_client.models.invitation import Invitation
+from waldur_api_client.models.public_offering_details import PublicOfferingDetails
+from waldur_api_client.models.invitation_request import InvitationRequest
+from waldur_api_client.models.customer import Customer
+from waldur_api_client.models.invoice import Invoice
+from waldur_api_client.models.resource import Resource
+from waldur_api_client.models.project import Project
+from waldur_api_client.models.query_request import QueryRequest
 
 # Get credentials from environment variables
 api_url = os.getenv("WALDUR_API_URL")
@@ -84,7 +31,9 @@ if not api_url or not token:
         "WALDUR_API_URL and WALDUR_TOKEN environment variables must be set"
     )
 
-client = WaldurClient(api_url, token)
+client = AuthenticatedClient(
+    base_url=api_url, token=token, prefix="Token", raise_on_unexpected_status=True
+)
 
 # Create an MCP server
 mcp = FastMCP("Waldur", dependencies=["httpx"])
@@ -93,16 +42,21 @@ mcp = FastMCP("Waldur", dependencies=["httpx"])
 @mcp.resource("schema://main")
 async def get_schema() -> list[str]:
     """Provide the database schema as a resource"""
-    result = await client.sql_query(
-        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+    result = await api_query.asyncio(
+        client=client,
+        body=QueryRequest(
+            query="SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+        ),
     )
-    return [row[0] for row in result]
+    if isinstance(result, list):
+        return [row[0] for row in result]
+    return []
 
 
 @mcp.tool()
-async def query(sql: str) -> dict:
+async def query(sql: str) -> list[Any]:
     """Run a read-only SQL query"""
-    return await client.sql_query(sql)
+    return await api_query.asyncio(client=client, body=QueryRequest(query=sql))
 
 
 @mcp.prompt()
@@ -113,33 +67,33 @@ async def schema_aware_query() -> str:
 
 
 @mcp.tool()
-async def list_customers() -> list[dict]:
+async def list_customers() -> list[Customer]:
     """List all customers"""
-    return await client.list_customers()
+    return await customers_list.asyncio(client=client)
 
 
 @mcp.tool()
-async def list_projects() -> list[dict]:
+async def list_projects() -> list[Project]:
     """List all projects"""
-    return await client.list_projects()
+    return await projects_list.asyncio(client=client)
 
 
 @mcp.tool()
-async def list_resources() -> list[dict]:
+async def list_resources() -> list[Resource]:
     """List all resources"""
-    return await client.list_resources()
+    return await marketplace_resources_list.asyncio(client=client)
 
 
 @mcp.tool()
-async def list_invoices() -> list[dict]:
+async def list_invoices() -> list[Invoice]:
     """List all invoices"""
-    return await client.list_invoices()
+    return await invoices_list.asyncio(client=client)
 
 
 @mcp.tool()
-async def list_offerings() -> list[dict]:
+async def list_offerings() -> list[PublicOfferingDetails]:
     """List all offerings"""
-    return await client.list_offerings()
+    return await marketplace_public_offerings_list.asyncio(client=client)
 
 
 @mcp.tool()
@@ -149,7 +103,7 @@ async def create_invitation(
     role: str,
     emails: list[str],
     extra_invitation_text: str = "",
-) -> list[dict]:
+) -> list[Invitation]:
     """Invite users to project or organization by email
 
     Args:
@@ -160,18 +114,20 @@ async def create_invitation(
         extra_invitation_text: Custom message to include in the invitation
     """
 
-    matching_roles = await client.list_roles({"description": role})
+    matching_roles = await roles_list.asyncio(client=client, description=role)
     if not matching_roles:
         raise ValueError(f"Role '{role}' not found")
-    role = matching_roles[0]["uuid"]
+    role_uuid = matching_roles[0]["uuid"]
 
     if scope_type == "customer":
-        matching_customers = await client.list_customers({"name": scope_name})
+        matching_customers = await customers_list.asyncio(
+            client=client, name=scope_name
+        )
         if not matching_customers:
             raise ValueError(f"Customer '{scope_name}' not found")
         scope_url = matching_customers[0]["url"]
     elif scope_type == "project":
-        matching_projects = await client.list_projects({"name": scope_name})
+        matching_projects = await projects_list.asyncio(client=client, name=scope_name)
         if not matching_projects:
             raise ValueError(f"Project '{scope_name}' not found")
         scope_url = matching_projects[0]["url"]
@@ -181,15 +137,21 @@ async def create_invitation(
 
     results = []
     for email in emails:
-        result = await client.send_invitation(
-            scope_url, role, email, extra_invitation_text
+        result = await user_invitations_create.asyncio(
+            client=client,
+            body=InvitationRequest(
+                scope=scope_url,
+                role=role_uuid,
+                email=email,
+                extra_invitation_text=extra_invitation_text,
+            ),
         )
         results.append(result)
 
     return results
 
 
-def main():
+def main() -> None:
     mcp.run()
 
 

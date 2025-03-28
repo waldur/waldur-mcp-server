@@ -6,12 +6,16 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
  "httpx>=0.28.1",
- "mcp[cli]>=1.2.0",
+ "mcp>=1.6.0",
+ "waldur-api-client",
 ]
 
 [build-system]
 requires = [ "hatchling",]
 build-backend = "hatchling.build"
+
+[tool.uv.sources]
+waldur-api-client = { git = "https://github.com/waldur/py-client.git" }
 
 [project.scripts]
 waldur-mcp-server = "waldur_mcp_server:main"
