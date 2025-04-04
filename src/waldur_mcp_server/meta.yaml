@@ -1290,6 +1290,10 @@ marketplace_robotaccount:
       type: JSON
     created:
       type: DateTime
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
     id:
       type: PositiveInteger
     keys:
@@ -1302,6 +1306,21 @@ marketplace_robotaccount:
     responsible_user_id:
       db_table: core_user
       type: ForeignKey
+    state:
+      choices:
+      - display: Requested
+        value: 1
+      - display: Creating
+        value: 2
+      - display: OK
+        value: 3
+      - display: Requested deletion
+        value: 4
+      - display: Deleted
+        value: 5
+      - display: Error
+        value: 6
+      type: PositiveInteger
     type:
       type: Char
     username:
