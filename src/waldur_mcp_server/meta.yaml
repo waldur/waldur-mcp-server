@@ -683,6 +683,32 @@ marketplace_componentuserusagelimit:
       type: UUID
   model: componentuserusagelimit
   type: Table
+marketplace_customerserviceaccount:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    customer_id:
+      db_table: structure_customer
+      type: ForeignKey
+    description:
+      type: Text
+    email:
+      type: Email
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    username:
+      type: Char
+    uuid:
+      type: UUID
+  model: customerserviceaccount
+  type: Table
 marketplace_integrationstatus:
   app_label: marketplace
   columns:
@@ -778,6 +804,8 @@ marketplace_offering:
     project_id:
       db_table: structure_project
       type: ForeignKey
+    remote_image_uuid:
+      type: UUID
     resource_options:
       type: JSON
     secret_options:
@@ -1134,6 +1162,32 @@ marketplace_plancomponent:
       type: Decimal
   model: plancomponent
   type: Table
+marketplace_projectserviceaccount:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    description:
+      type: Text
+    email:
+      type: Email
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    username:
+      type: Char
+    uuid:
+      type: UUID
+  model: projectserviceaccount
+  type: Table
 marketplace_resource:
   app_label: marketplace
   columns:
@@ -1290,6 +1344,8 @@ marketplace_robotaccount:
       type: JSON
     created:
       type: DateTime
+    description:
+      type: Text
     error_message:
       type: Text
     error_traceback:
@@ -1343,6 +1399,8 @@ marketplace_robotaccount_users:
 marketplace_screenshot:
   app_label: marketplace
   columns:
+    backend_id:
+      type: Char
     created:
       type: DateTime
     description:
