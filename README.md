@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/waldur-waldur-mcp-server-badge.png)](https://mseep.ai/app/waldur-waldur-mcp-server)
+
 # Waldur MCP server
 
 Waldur MCP server enables integration between Waldur instance and Claude Desktop by implementing the Model Context Protocol (MCP). This allows Claude to interact with your Waldur instance directly.
