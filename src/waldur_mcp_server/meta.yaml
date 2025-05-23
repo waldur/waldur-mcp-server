@@ -1007,8 +1007,6 @@ marketplace_offeringuserrole:
 marketplace_order:
   app_label: marketplace
   columns:
-    activated:
-      type: DateTime
     attributes:
       type: JSON
     backend_id:
