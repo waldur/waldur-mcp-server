@@ -703,6 +703,8 @@ marketplace_customerserviceaccount:
       type: PositiveInteger
     modified:
       type: DateTime
+    preferred_identifier:
+      type: Char
     username:
       type: Char
     uuid:
@@ -1177,6 +1179,8 @@ marketplace_projectserviceaccount:
       type: PositiveInteger
     modified:
       type: DateTime
+    preferred_identifier:
+      type: Char
     project_id:
       db_table: structure_project
       type: ForeignKey
