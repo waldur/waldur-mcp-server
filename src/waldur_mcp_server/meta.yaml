@@ -1596,6 +1596,8 @@ structure_customer:
       type: Float
     longitude:
       type: Float
+    max_service_accounts:
+      type: PositiveSmallInteger
     modified:
       type: DateTime
     name:
@@ -1693,6 +1695,8 @@ structure_project:
       type: Boolean
     is_removed:
       type: Boolean
+    max_service_accounts:
+      type: PositiveSmallInteger
     modified:
       type: DateTime
     name:
