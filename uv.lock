@@ -292,12 +292,16 @@ wheels = [
 
 [[package]]
 name = "waldur-api-client"
-version = "0.0.0"
-source = { git = "https://github.com/waldur/py-client.git#480e4668996004d75d086b737daccb288016d1af" }
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "httpx" },
     { name = "python-dateutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/00/00/14921f041ee17a8d6c97c13421648f64dd2563b6865bd9aacd9fbc629de4/waldur_api_client-0.1.0.tar.gz", hash = "sha256:dc8ce37bc676f15b35646018b0c4f3f8e4c687b56aeff64edfb8bae8936495b1", size = 719451 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f1/0b/a87db619d000198cdba7a482b2596ba0cbfa018812d3f98c4316824113a3/waldur_api_client-0.1.0-py3-none-any.whl", hash = "sha256:870276adcaa73a3314b220f6b1e4b13396a5a0e7b05a43964c0da26dc0dab747", size = 2701653 },
 ]
 
 [[package]]
@@ -314,5 +318,5 @@ dependencies = [
 requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "mcp", specifier = ">=1.6.0" },
-    { name = "waldur-api-client", git = "https://github.com/waldur/py-client.git" },
+    { name = "waldur-api-client", specifier = ">=0.1.0" },
 ]
