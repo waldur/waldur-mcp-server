@@ -1811,6 +1811,8 @@ structure_useragreement:
 users_groupinvitation:
   app_label: users
   columns:
+    auto_create_project:
+      type: Boolean
     content_type_id:
       db_table: django_content_type
       type: ForeignKey
@@ -1830,6 +1832,11 @@ users_groupinvitation:
       type: DateTime
     object_id:
       type: PositiveInteger
+    project_name_template:
+      type: Char
+    project_role_id:
+      db_table: permissions_role
+      type: ForeignKey
     role_id:
       db_table: permissions_role
       type: ForeignKey
