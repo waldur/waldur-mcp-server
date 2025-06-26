@@ -31,9 +31,7 @@ if not api_url or not token:
         "WALDUR_API_URL and WALDUR_TOKEN environment variables must be set"
     )
 
-client = AuthenticatedClient(
-    base_url=api_url, token=token, prefix="Token", raise_on_unexpected_status=True
-)
+client = AuthenticatedClient(base_url=api_url, token=token)
 
 # Create an MCP server
 mcp = FastMCP("Waldur", dependencies=["httpx"])
