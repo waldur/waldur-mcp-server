@@ -442,6 +442,57 @@ marketplace_attributeoption:
       type: Char
   model: attributeoption
   type: Table
+marketplace_backendresource:
+  app_label: marketplace
+  columns:
+    backend_id:
+      type: Char
+    backend_metadata:
+      type: JSON
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: backendresource
+  type: Table
+marketplace_backendresourcerequest:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    finished:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    started:
+      type: DateTime
+    state:
+      type: FSM
+    uuid:
+      type: UUID
+  model: backendresourcerequest
+  type: Table
 marketplace_category:
   app_label: marketplace
   columns:
