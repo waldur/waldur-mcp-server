@@ -789,6 +789,160 @@ marketplace_integrationstatus:
       type: UUID
   model: integrationstatus
   type: Table
+marketplace_maintenanceannouncement:
+  app_label: marketplace
+  columns:
+    actual_end:
+      type: DateTime
+    actual_start:
+      type: DateTime
+    created:
+      type: DateTime
+    created_by_id:
+      db_table: core_user
+      type: ForeignKey
+    id:
+      type: PositiveInteger
+    maintenance_type:
+      choices:
+      - display: Scheduled maintenance
+        value: 1
+      - display: Emergency maintenance
+        value: 2
+      - display: Security maintenance
+        value: 3
+      - display: System upgrade
+        value: 4
+      - display: Patch deployment
+        value: 5
+      type: PositiveSmallInteger
+    message:
+      type: Char
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    scheduled_end:
+      type: DateTime
+    scheduled_start:
+      type: DateTime
+    service_provider_id:
+      db_table: marketplace_serviceprovider
+      type: ForeignKey
+    state:
+      choices:
+      - display: Draft
+        value: 1
+      - display: Scheduled
+        value: 2
+      - display: In progress
+        value: 3
+      - display: Completed
+        value: 4
+      - display: Cancelled
+        value: 5
+      type: PositiveInteger
+    uuid:
+      type: UUID
+  model: maintenanceannouncement
+  type: Table
+marketplace_maintenanceannouncementoffering:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    impact_description:
+      type: Text
+    impact_level:
+      choices:
+      - display: No impact
+        value: 1
+      - display: Degraded performance
+        value: 2
+      - display: Partial outage
+        value: 3
+      - display: Full outage
+        value: 4
+      type: PositiveSmallInteger
+    maintenance_id:
+      db_table: marketplace_maintenanceannouncement
+      type: ForeignKey
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: maintenanceannouncementoffering
+  type: Table
+marketplace_maintenanceannouncementofferingtemplate:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    impact_description:
+      type: Text
+    impact_level:
+      choices:
+      - display: No impact
+        value: 1
+      - display: Degraded performance
+        value: 2
+      - display: Partial outage
+        value: 3
+      - display: Full outage
+        value: 4
+      type: PositiveSmallInteger
+    maintenance_template_id:
+      db_table: marketplace_maintenanceannouncementtemplate
+      type: ForeignKey
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: maintenanceannouncementofferingtemplate
+  type: Table
+marketplace_maintenanceannouncementtemplate:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    maintenance_type:
+      choices:
+      - display: Scheduled maintenance
+        value: 1
+      - display: Emergency maintenance
+        value: 2
+      - display: Security maintenance
+        value: 3
+      - display: System upgrade
+        value: 4
+      - display: Patch deployment
+        value: 5
+      type: PositiveSmallInteger
+    message:
+      type: Char
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    service_provider_id:
+      db_table: marketplace_serviceprovider
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: maintenanceannouncementtemplate
+  type: Table
 marketplace_offering:
   app_label: marketplace
   columns:
