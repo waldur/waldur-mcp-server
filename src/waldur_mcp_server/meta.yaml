@@ -1161,6 +1161,29 @@ marketplace_offeringuser:
     offering_id:
       db_table: marketplace_offering
       type: ForeignKey
+    service_provider_comment:
+      type: Text
+    state:
+      choices:
+      - display: Requested
+        value: 1
+      - display: Creating
+        value: 2
+      - display: Pending account linking
+        value: 3
+      - display: Pending additional validation
+        value: 4
+      - display: OK
+        value: 5
+      - display: Requested deletion
+        value: 6
+      - display: Deleting
+        value: 7
+      - display: Deleted
+        value: 8
+      - display: Error
+        value: 9
+      type: PositiveInteger
     user_id:
       db_table: core_user
       type: ForeignKey
