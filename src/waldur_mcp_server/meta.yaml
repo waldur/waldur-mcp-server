@@ -2068,6 +2068,10 @@ users_groupinvitation:
     role_id:
       db_table: permissions_role
       type: ForeignKey
+    user_affiliations:
+      type: JSON
+    user_email_patterns:
+      type: JSON
     uuid:
       type: UUID
   model: groupinvitation
