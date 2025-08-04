@@ -1884,6 +1884,27 @@ structure_customerpermissionreview:
       type: UUID
   model: customerpermissionreview
   type: Table
+structure_externallink:
+  app_label: structure
+  columns:
+    created:
+      type: DateTime
+    description:
+      type: Char
+    id:
+      type: PositiveInteger
+    image:
+      type: Image
+    link:
+      type: URL
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    uuid:
+      type: UUID
+  model: externallink
+  type: Table
 structure_organizationgroup:
   app_label: structure
   columns:
