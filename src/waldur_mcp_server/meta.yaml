@@ -801,6 +801,8 @@ marketplace_maintenanceannouncement:
     created_by_id:
       db_table: core_user
       type: ForeignKey
+    external_reference_url:
+      type: URL
     id:
       type: PositiveInteger
     maintenance_type:
