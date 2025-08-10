@@ -1165,6 +1165,8 @@ marketplace_offeringuser:
       type: ForeignKey
     service_provider_comment:
       type: Text
+    service_provider_comment_url:
+      type: URL
     state:
       choices:
       - display: Requested
@@ -1183,8 +1185,10 @@ marketplace_offeringuser:
         value: 7
       - display: Deleted
         value: 8
-      - display: Error
+      - display: Error creating
         value: 9
+      - display: Error deleting
+        value: 10
       type: PositiveInteger
     user_id:
       db_table: core_user
