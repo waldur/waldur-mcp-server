@@ -2083,6 +2083,8 @@ users_groupinvitation:
       type: PositiveInteger
     is_active:
       type: Boolean
+    is_public:
+      type: Boolean
     modified:
       type: DateTime
     object_id:
