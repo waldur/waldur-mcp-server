@@ -1036,10 +1036,6 @@ marketplace_offering:
       type: PositiveInteger
     support_per_user_consumption_limitation:
       type: Boolean
-    terms_of_service:
-      type: Text
-    terms_of_service_link:
-      type: URL
     thumbnail:
       type: File
     type:
@@ -1146,6 +1142,32 @@ marketplace_offeringfile:
     uuid:
       type: UUID
   model: offeringfile
+  type: Table
+marketplace_offeringtermsofservice:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    is_active:
+      type: Boolean
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    requires_reconsent:
+      type: Boolean
+    terms_of_service:
+      type: Text
+    terms_of_service_link:
+      type: URL
+    uuid:
+      type: UUID
+    version:
+      type: Char
+  model: offeringtermsofservice
   type: Table
 marketplace_offeringuser:
   app_label: marketplace
@@ -1705,6 +1727,31 @@ marketplace_serviceprovider:
     uuid:
       type: UUID
   model: serviceprovider
+  type: Table
+marketplace_userofferingconsent:
+  app_label: marketplace
+  columns:
+    agreement_date:
+      type: DateTime
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    revocation_date:
+      type: DateTime
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+    uuid:
+      type: UUID
+    version:
+      type: Char
+  model: userofferingconsent
   type: Table
 permissions_role:
   app_label: permissions
