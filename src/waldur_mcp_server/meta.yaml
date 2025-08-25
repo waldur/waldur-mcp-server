@@ -796,6 +796,8 @@ marketplace_maintenanceannouncement:
       type: DateTime
     actual_start:
       type: DateTime
+    backend_id:
+      type: Char
     created:
       type: DateTime
     created_by_id:
