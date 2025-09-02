@@ -756,6 +756,15 @@ marketplace_customerserviceaccount:
       type: DateTime
     preferred_identifier:
       type: Char
+    state:
+      choices:
+      - display: OK
+        value: 1
+      - display: Closed
+        value: 2
+      - display: Erred
+        value: 3
+      type: PositiveInteger
     username:
       type: Char
     uuid:
@@ -1442,6 +1451,15 @@ marketplace_projectserviceaccount:
     project_id:
       db_table: structure_project
       type: ForeignKey
+    state:
+      choices:
+      - display: OK
+        value: 1
+      - display: Closed
+        value: 2
+      - display: Erred
+        value: 3
+      type: PositiveInteger
     username:
       type: Char
     uuid:
