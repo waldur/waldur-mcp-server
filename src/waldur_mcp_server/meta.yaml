@@ -2076,6 +2076,27 @@ structure_project:
       type: UUID
   model: project
   type: Table
+structure_projectpermissionreview:
+  app_label: structure
+  columns:
+    closed:
+      type: DateTime
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    is_pending:
+      type: Boolean
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    reviewer_id:
+      db_table: core_user
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: projectpermissionreview
+  type: Table
 structure_projecttype:
   app_label: structure
   columns:
