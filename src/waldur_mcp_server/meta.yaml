@@ -734,6 +734,42 @@ marketplace_componentuserusagelimit:
       type: UUID
   model: componentuserusagelimit
   type: Table
+marketplace_courseaccount:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    description:
+      type: Char
+    email:
+      type: Email
+    error_message:
+      type: Text
+    error_traceback:
+      type: Text
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    project_id:
+      db_table: structure_project
+      type: ForeignKey
+    state:
+      choices:
+      - display: OK
+        value: 1
+      - display: Closed
+        value: 2
+      - display: Erred
+        value: 3
+      type: PositiveInteger
+    user_id:
+      db_table: core_user
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: courseaccount
+  type: Table
 marketplace_customerserviceaccount:
   app_label: marketplace
   columns:
@@ -1883,6 +1919,8 @@ structure_customer:
       type: DateTime
     default_tax_percent:
       type: Decimal
+    description:
+      type: Char
     domain:
       type: Char
     email:
@@ -2017,6 +2055,8 @@ structure_project:
       type: Boolean
     is_removed:
       type: Boolean
+    kind:
+      type: Char
     max_service_accounts:
       type: PositiveSmallInteger
     modified:
