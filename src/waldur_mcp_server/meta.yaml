@@ -1312,6 +1312,8 @@ marketplace_offeringuserrole:
 marketplace_order:
   app_label: marketplace
   columns:
+    attachment:
+      type: File
     attributes:
       type: JSON
     backend_id:
@@ -1361,6 +1363,8 @@ marketplace_order:
     provider_reviewed_by_id:
       db_table: core_user
       type: ForeignKey
+    request_comment:
+      type: Char
     resource_id:
       db_table: marketplace_resource
       type: ForeignKey
