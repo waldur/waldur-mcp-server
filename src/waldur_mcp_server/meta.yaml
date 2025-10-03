@@ -393,6 +393,8 @@ invoices_projectcredit:
       type: Decimal
     id:
       type: PositiveInteger
+    mark_unused_credit_as_spent_on_project_termination:
+      type: Boolean
     minimal_consumption_logic:
       type: Char
     modified:
