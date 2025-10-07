@@ -1927,6 +1927,8 @@ structure_customer:
       type: Decimal
     description:
       type: Char
+    display_billing_info_in_projects:
+      type: Boolean
     domain:
       type: Char
     email:
