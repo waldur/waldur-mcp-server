@@ -1142,16 +1142,22 @@ marketplace_offeringcomponent:
       type: PositiveInteger
     is_boolean:
       type: Boolean
+    is_prepaid:
+      type: Boolean
     limit_amount:
       type: Integer
     limit_period:
       type: Char
     max_available_limit:
       type: Integer
+    max_prepaid_duration:
+      type: Integer
     max_value:
       type: Integer
     measured_unit:
       type: Char
+    min_prepaid_duration:
+      type: Integer
     min_value:
       type: Integer
     name:
@@ -1160,6 +1166,9 @@ marketplace_offeringcomponent:
       type: PositiveInteger
     offering_id:
       db_table: marketplace_offering
+      type: ForeignKey
+    overage_component_id:
+      db_table: marketplace_offeringcomponent
       type: ForeignKey
     parent_id:
       db_table: marketplace_categorycomponent
