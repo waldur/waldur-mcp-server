@@ -1379,6 +1379,8 @@ marketplace_order:
     resource_id:
       db_table: marketplace_resource
       type: ForeignKey
+    slug:
+      type: Slug
     state:
       choices:
       - display: pending-consumer
@@ -2088,6 +2090,8 @@ structure_project:
       type: Slug
     start_date:
       type: Date
+    termination_metadata:
+      type: JSON
     type_id:
       db_table: structure_projecttype
       type: ForeignKey
