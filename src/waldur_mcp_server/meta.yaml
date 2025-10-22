@@ -1471,6 +1471,10 @@ marketplace_plancomponent:
     component_id:
       db_table: marketplace_offeringcomponent
       type: ForeignKey
+    discount_rate:
+      type: PositiveInteger
+    discount_threshold:
+      type: PositiveInteger
     future_price:
       type: Decimal
     id:
