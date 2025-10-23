@@ -1381,6 +1381,8 @@ marketplace_order:
       type: ForeignKey
     slug:
       type: Slug
+    start_date:
+      type: Date
     state:
       choices:
       - display: pending-consumer
@@ -1389,6 +1391,8 @@ marketplace_order:
         value: 7
       - display: pending-project
         value: 8
+      - display: pending-start-date
+        value: 9
       - display: executing
         value: 2
       - display: done
