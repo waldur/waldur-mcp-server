@@ -2096,6 +2096,8 @@ structure_project:
       type: Char
     slug:
       type: Slug
+    staff_notes:
+      type: Char
     start_date:
       type: Date
     termination_metadata:
