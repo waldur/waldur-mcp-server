@@ -1201,6 +1201,88 @@ marketplace_offeringfile:
       type: UUID
   model: offeringfile
   type: Table
+marketplace_offeringpartition:
+  app_label: marketplace
+  columns:
+    cpu_bind:
+      type: PositiveInteger
+    created:
+      type: DateTime
+    def_cpu_per_gpu:
+      type: PositiveInteger
+    def_mem_per_cpu:
+      type: PositiveBigInteger
+    def_mem_per_gpu:
+      type: PositiveBigInteger
+    def_mem_per_node:
+      type: PositiveBigInteger
+    default_time:
+      type: PositiveInteger
+    exclusive_topo:
+      type: Boolean
+    exclusive_user:
+      type: Boolean
+    grace_time:
+      type: PositiveInteger
+    id:
+      type: PositiveInteger
+    max_cpus_per_node:
+      type: PositiveInteger
+    max_cpus_per_socket:
+      type: PositiveInteger
+    max_mem_per_cpu:
+      type: PositiveBigInteger
+    max_mem_per_node:
+      type: PositiveBigInteger
+    max_nodes:
+      type: PositiveInteger
+    max_time:
+      type: PositiveInteger
+    min_nodes:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    partition_name:
+      type: Char
+    priority_tier:
+      type: PositiveSmallInteger
+    qos:
+      type: Char
+    req_resv:
+      type: Boolean
+    uuid:
+      type: UUID
+  model: offeringpartition
+  type: Table
+marketplace_offeringsoftwarecatalog:
+  app_label: marketplace
+  columns:
+    catalog_id:
+      db_table: marketplace_softwarecatalog
+      type: ForeignKey
+    created:
+      type: DateTime
+    enabled_cpu_family:
+      type: JSON
+    enabled_cpu_microarchitectures:
+      type: JSON
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    partition_id:
+      db_table: marketplace_offeringpartition
+      type: ForeignKey
+    uuid:
+      type: UUID
+  model: offeringsoftwarecatalog
+  type: Table
 marketplace_offeringtermsofservice:
   app_label: marketplace
   columns:
@@ -1808,6 +1890,93 @@ marketplace_serviceprovider:
     uuid:
       type: UUID
   model: serviceprovider
+  type: Table
+marketplace_softwarecatalog:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    description:
+      type: Text
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    source_url:
+      type: URL
+    uuid:
+      type: UUID
+    version:
+      type: Char
+  model: softwarecatalog
+  type: Table
+marketplace_softwarepackage:
+  app_label: marketplace
+  columns:
+    catalog_id:
+      db_table: marketplace_softwarecatalog
+      type: ForeignKey
+    created:
+      type: DateTime
+    description:
+      type: Text
+    homepage:
+      type: URL
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    uuid:
+      type: UUID
+  model: softwarepackage
+  type: Table
+marketplace_softwaretarget:
+  app_label: marketplace
+  columns:
+    cpu_family:
+      type: Char
+    cpu_microarchitecture:
+      type: Char
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    path:
+      type: Char
+    uuid:
+      type: UUID
+    version_id:
+      db_table: marketplace_softwareversion
+      type: ForeignKey
+  model: softwaretarget
+  type: Table
+marketplace_softwareversion:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    id:
+      type: PositiveInteger
+    metadata:
+      type: JSON
+    modified:
+      type: DateTime
+    package_id:
+      db_table: marketplace_softwarepackage
+      type: ForeignKey
+    release_date:
+      type: Date
+    uuid:
+      type: UUID
+    version:
+      type: Char
+  model: softwareversion
   type: Table
 marketplace_userofferingconsent:
   app_label: marketplace
