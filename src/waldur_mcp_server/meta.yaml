@@ -111,6 +111,8 @@ core_user:
       type: DateTime
     backend_id:
       type: Char
+    birth_date:
+      type: Date
     civil_number:
       type: Char
     date_joined:
