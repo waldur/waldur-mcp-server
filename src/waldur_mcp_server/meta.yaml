@@ -1290,6 +1290,8 @@ marketplace_offeringtermsofservice:
   columns:
     created:
       type: DateTime
+    grace_period_days:
+      type: PositiveInteger
     id:
       type: PositiveInteger
     is_active:
