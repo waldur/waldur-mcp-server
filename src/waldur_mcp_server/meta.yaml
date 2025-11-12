@@ -2125,6 +2125,8 @@ structure_customer:
       type: Char
     email:
       type: Email
+    grace_period_days:
+      type: PositiveInteger
     homepage:
       type: URL
     id:
@@ -2249,6 +2251,8 @@ structure_project:
     end_date_requested_by_id:
       db_table: core_user
       type: ForeignKey
+    grace_period_days:
+      type: PositiveInteger
     id:
       type: PositiveInteger
     image:
