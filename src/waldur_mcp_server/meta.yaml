@@ -856,6 +856,8 @@ marketplace_maintenanceannouncement:
       type: URL
     id:
       type: PositiveInteger
+    internal_notes:
+      type: Char
     maintenance_type:
       choices:
       - display: Scheduled maintenance
