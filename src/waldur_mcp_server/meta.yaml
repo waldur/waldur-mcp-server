@@ -306,6 +306,9 @@ invoices_invoiceitem:
       type: Char
     name:
       type: Text
+    plan_component_id:
+      db_table: marketplace_plancomponent
+      type: ForeignKey
     project_id:
       db_table: structure_project
       type: ForeignKey
