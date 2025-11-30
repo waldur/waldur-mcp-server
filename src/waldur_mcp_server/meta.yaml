@@ -1505,6 +1505,8 @@ marketplace_order:
         value: 2
       - display: Terminate
         value: 3
+      - display: Restore
+        value: 4
       type: PositiveSmallInteger
     uuid:
       type: UUID
