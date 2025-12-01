@@ -1905,18 +1905,30 @@ marketplace_serviceprovider:
 marketplace_softwarecatalog:
   app_label: marketplace
   columns:
+    auto_update_enabled:
+      type: Boolean
+    catalog_type:
+      type: Char
     created:
       type: DateTime
     description:
       type: Text
     id:
       type: PositiveInteger
+    last_successful_update:
+      type: DateTime
+    last_update_attempt:
+      type: DateTime
+    metadata:
+      type: JSON
     modified:
       type: DateTime
     name:
       type: Char
     source_url:
       type: URL
+    update_errors:
+      type: Text
     uuid:
       type: UUID
     version:
@@ -1929,6 +1941,8 @@ marketplace_softwarepackage:
     catalog_id:
       db_table: marketplace_softwarecatalog
       type: ForeignKey
+    categories:
+      type: JSON
     created:
       type: DateTime
     description:
@@ -1937,10 +1951,19 @@ marketplace_softwarepackage:
       type: URL
     id:
       type: PositiveInteger
+    is_extension:
+      type: Boolean
+    licenses:
+      type: JSON
+    maintainers:
+      type: JSON
     modified:
       type: DateTime
     name:
       type: Char
+    parent_software_id:
+      db_table: marketplace_softwarepackage
+      type: ForeignKey
     uuid:
       type: UUID
   model: softwarepackage
@@ -1948,17 +1971,21 @@ marketplace_softwarepackage:
 marketplace_softwaretarget:
   app_label: marketplace
   columns:
-    cpu_family:
-      type: Char
-    cpu_microarchitecture:
-      type: Char
     created:
       type: DateTime
     id:
       type: PositiveInteger
+    location:
+      type: Char
+    metadata:
+      type: JSON
     modified:
       type: DateTime
-    path:
+    target_name:
+      type: Char
+    target_subtype:
+      type: Char
+    target_type:
       type: Char
     uuid:
       type: UUID
@@ -1972,6 +1999,8 @@ marketplace_softwareversion:
   columns:
     created:
       type: DateTime
+    dependencies:
+      type: JSON
     id:
       type: PositiveInteger
     metadata:
