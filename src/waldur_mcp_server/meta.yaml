@@ -1089,6 +1089,8 @@ marketplace_offering:
         value: 3
       - display: Archived
         value: 4
+      - display: Unavailable
+        value: 5
       type: PositiveInteger
     support_per_user_consumption_limitation:
       type: Boolean
