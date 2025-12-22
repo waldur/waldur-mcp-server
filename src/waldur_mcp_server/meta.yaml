@@ -2442,6 +2442,8 @@ structure_useragreement:
 users_groupinvitation:
   app_label: users
   columns:
+    auto_approve:
+      type: Boolean
     auto_create_project:
       type: Boolean
     content_type_id:
