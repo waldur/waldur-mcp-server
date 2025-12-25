@@ -2195,6 +2195,12 @@ structure_customer:
       type: Slug
     sponsor_number:
       type: PositiveInteger
+    user_affiliations:
+      type: JSON
+    user_email_patterns:
+      type: JSON
+    user_identity_sources:
+      type: JSON
     uuid:
       type: UUID
     vat_address:
@@ -2320,6 +2326,12 @@ structure_project:
     type_id:
       db_table: structure_projecttype
       type: ForeignKey
+    user_affiliations:
+      type: JSON
+    user_email_patterns:
+      type: JSON
+    user_identity_sources:
+      type: JSON
     uuid:
       type: UUID
   model: project
@@ -2478,6 +2490,8 @@ users_groupinvitation:
     user_affiliations:
       type: JSON
     user_email_patterns:
+      type: JSON
+    user_identity_sources:
       type: JSON
     uuid:
       type: UUID
