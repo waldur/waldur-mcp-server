@@ -2445,6 +2445,8 @@ structure_useragreement:
       type: DateTime
     id:
       type: PositiveInteger
+    language:
+      type: Char
     modified:
       type: DateTime
     uuid:
