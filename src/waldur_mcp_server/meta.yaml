@@ -1115,6 +1115,17 @@ marketplace_offering_organization_groups:
       db_table: structure_organizationgroup
       type: ForeignKey
   type: ManyToManyTable
+marketplace_offering_tags:
+  columns:
+    id:
+      type: PositiveInteger
+    offering_id:
+      db_table: marketplace_offering
+      type: ForeignKey
+    tag_id:
+      db_table: marketplace_tag
+      type: ForeignKey
+  type: ManyToManyTable
 marketplace_offeringaccessendpoint:
   app_label: marketplace
   columns:
@@ -2019,6 +2030,26 @@ marketplace_softwareversion:
     version:
       type: Char
   model: softwareversion
+  type: Table
+marketplace_tag:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    created_by_id:
+      db_table: core_user
+      type: ForeignKey
+    description:
+      type: Text
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    name:
+      type: Char
+    uuid:
+      type: UUID
+  model: tag
   type: Table
 marketplace_userofferingconsent:
   app_label: marketplace
