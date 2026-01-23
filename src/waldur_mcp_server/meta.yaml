@@ -115,16 +115,31 @@ core_user:
       type: Date
     civil_number:
       type: Char
+    country_of_residence:
+      type: Char
     date_joined:
       type: DateTime
     description:
       type: Char
     details:
       type: JSON
+    eduperson_assurance:
+      type: JSON
     email:
       type: Email
     first_name:
       type: Char
+    gender:
+      choices:
+      - display: Not known
+        value: 0
+      - display: Male
+        value: 1
+      - display: Female
+        value: 2
+      - display: Not applicable
+        value: 9
+      type: PositiveSmallInteger
     id:
       type: PositiveInteger
     identity_source:
@@ -151,15 +166,27 @@ core_user:
       type: DateTime
     modified:
       type: DateTime
+    nationalities:
+      type: JSON
+    nationality:
+      type: Char
     native_name:
       type: Char
     notifications_enabled:
       type: Boolean
     organization:
       type: Char
+    organization_country:
+      type: Char
+    organization_type:
+      type: Char
     password:
       type: Char
+    personal_title:
+      type: Char
     phone_number:
+      type: Char
+    place_of_birth:
       type: Char
     preferred_language:
       type: Char
@@ -1383,6 +1410,60 @@ marketplace_offeringuser:
       type: UUID
   model: offeringuser
   type: Table
+marketplace_offeringuserattributeconfig:
+  app_label: marketplace
+  columns:
+    created:
+      type: DateTime
+    expose_affiliations:
+      type: Boolean
+    expose_birth_date:
+      type: Boolean
+    expose_civil_number:
+      type: Boolean
+    expose_country_of_residence:
+      type: Boolean
+    expose_eduperson_assurance:
+      type: Boolean
+    expose_email:
+      type: Boolean
+    expose_full_name:
+      type: Boolean
+    expose_gender:
+      type: Boolean
+    expose_identity_source:
+      type: Boolean
+    expose_job_title:
+      type: Boolean
+    expose_nationalities:
+      type: Boolean
+    expose_nationality:
+      type: Boolean
+    expose_organization:
+      type: Boolean
+    expose_organization_country:
+      type: Boolean
+    expose_organization_type:
+      type: Boolean
+    expose_personal_title:
+      type: Boolean
+    expose_phone_number:
+      type: Boolean
+    expose_place_of_birth:
+      type: Boolean
+    expose_username:
+      type: Boolean
+    id:
+      type: PositiveInteger
+    modified:
+      type: DateTime
+    offering_id:
+      db_table: marketplace_offering
+      type: OneToOne
+    uuid:
+      type: UUID
+  model: offeringuserattributeconfig
+  type: Table
 marketplace_offeringusergroup:
   app_label: marketplace
   columns:
@@ -2228,9 +2309,15 @@ structure_customer:
       type: PositiveInteger
     user_affiliations:
       type: JSON
+    user_assurance_levels:
+      type: JSON
     user_email_patterns:
       type: JSON
     user_identity_sources:
+      type: JSON
+    user_nationalities:
+      type: JSON
+    user_organization_types:
       type: JSON
     uuid:
       type: UUID
@@ -2359,9 +2446,15 @@ structure_project:
       type: ForeignKey
     user_affiliations:
       type: JSON
+    user_assurance_levels:
+      type: JSON
     user_email_patterns:
       type: JSON
     user_identity_sources:
+      type: JSON
+    user_nationalities:
+      type: JSON
+    user_organization_types:
       type: JSON
     uuid:
       type: UUID
@@ -2522,9 +2615,15 @@ users_groupinvitation:
       type: ForeignKey
     user_affiliations:
       type: JSON
+    user_assurance_levels:
+      type: JSON
     user_email_patterns:
       type: JSON
     user_identity_sources:
+      type: JSON
+    user_nationalities:
+      type: JSON
+    user_organization_types:
       type: JSON
     uuid:
       type: UUID
